@@ -3,7 +3,7 @@ import {isDayjs} from 'dayjs';
 import {
   MRT_TableInstance,
   MRT_Cell,
-  MRT_RowData, MRT_TableOptions,
+  MRT_RowData,
 } from 'material-react-table';
 import type {TextFieldProps} from "@mui/material";
 import {parseFromValuesOrFunc} from "material-react-table/src/utils/utils";

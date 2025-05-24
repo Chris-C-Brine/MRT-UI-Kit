@@ -22,9 +22,7 @@ import {
   type MRT_TableInstance,
 } from 'material-react-table';
 import {getTextFieldProps, updateEditingRow} from '../../utils';
-import {type SystemStyleObject} from '@mui/system';
 import {parseFromValuesOrFunc} from 'material-react-table/src/utils/utils';
-import type {Theme} from '@mui/material';
 
 /**
  * Props for the MRT_EditCellTextarea component.

@@ -2,7 +2,7 @@ import {DialogTitle, DialogContent, DialogActions, Box, InputLabel} from "@mui/m
 import type {MRT_RowData} from "material-react-table";
 import {AutoGrid, type AutoGridProps} from "@chris-c-brine/autogrid";
 import {isValidElement, ReactElement, ReactNode, useMemo} from "react";
-import {MRT_EditActionButtonsAlt, RTV} from "../buttons/MRT_EditActionsButtonsAlt";
+import {MRT_EditActionButtonsAlt, RTV} from "../buttons";
 import {MRT_EditCellTextFieldProps} from "../inputs";
 
 export type MRT_EditDialogProps<TData extends MRT_RowData> = AutoGridProps & RTV<TData>;
