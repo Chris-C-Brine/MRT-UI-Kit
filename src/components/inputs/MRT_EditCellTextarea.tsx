@@ -82,10 +82,7 @@ export const MRT_EditCellTextarea = <TData extends MRT_RowData>(
    * 2. Column-specific props
    * 3. Props passed directly to this component
    */
-  const textFieldProps: TextFieldProps = {
-    ...getTextFieldProps({table, cell}),
-    ...rest
-  };
+  const textFieldProps: TextFieldProps = {...getTextFieldProps({table, cell}), ...rest};
 
   const saveInputValueToRowCache = (newValue: string) => {
     //@ts-expect-error row._valuesCache is keyed by column.id
