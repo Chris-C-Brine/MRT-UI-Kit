@@ -1,8 +1,36 @@
 import {MRT_RowData} from "material-react-table";
-import IconButton from "@mui/material/IconButton";
+import IconButton, {IconButtonProps} from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import {RTV} from "./MRT_EditActionsButtonsAlt";
-import Button from "@mui/material/Button";
+import Button, {ButtonProps} from "@mui/material/Button";
+
+
+/**
+ * Props for icon variant of MRT_CloseDialogButton
+ *
+ * @extends Omit<IconButtonProps, "onClick" | "aria-label"> - Inherits from IconButton props except onClick and aria-label
+ */
+type IconVariant = Omit<IconButtonProps, "onClick" | "aria-label"> & {
+  /** Specifies that this button should render as an icon button */
+  variant: 'icon';
+}
+
+/**
+ * Props for text variant of MRT_CloseDialogButton
+ *
+ * @extends Omit<ButtonProps, "onClick" | "aria-label"> - Inherits from Button props except onClick and aria-label
+ */
+type TextVariant = Omit<ButtonProps, "onClick" | "aria-label"> & {
+  /** Specifies that this button should render as a text button (default) */
+  variant?: 'text';
+}
+
+/**
+ * Combined props for MRT_CloseDialogButton component
+ *
+ * @template TData - The type of data in the table rows
+ */
+export type MRT_DialogButtonProps<TData extends MRT_RowData> = RTV<TData> & (IconVariant | TextVariant);
 
 /**
  * Close/Cancel button component for edit actions.
@@ -21,10 +49,8 @@ import Button from "@mui/material/Button";
  * // Text button variant
  * <MRT_CloseDialogButton row={row} table={table} variant="text" />
  * ```
- *
- * @todo Extend props based on variant
  */
-export const MRT_CloseDialogButton = <TData extends MRT_RowData>({row, table, variant}: RTV<TData>) => {
+export const MRT_CloseDialogButton = <TData extends MRT_RowData>({row, table, variant}: MRT_DialogButtonProps<TData>) => {
   const {
     getState,
     options: {

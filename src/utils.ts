@@ -9,6 +9,17 @@ import type {TextFieldProps} from "@mui/material";
 import {parseFromValuesOrFunc} from "material-react-table/src/utils/utils";
 import {RTV} from "./components";
 
+/**
+ * Updates the editing row in a Material React Table with a new value
+ *
+ * This utility function is used by editing components to update the value
+ * in the row's cache and handle save operations for cell editing mode.
+ *
+ * @template TData - The data type for the table row
+ * @param table - The Material React Table instance
+ * @param cell - The cell being edited
+ * @param newValue - The new value to set (can be any type, including Dayjs objects)
+ */
 export const updateEditingRow = <TData extends MRT_RowData>(
   table: MRT_TableInstance<TData>,
   cell: MRT_Cell<TData>,
@@ -37,11 +48,26 @@ export const updateEditingRow = <TData extends MRT_RowData>(
   }
 };
 
+/**
+ * Parameters for the getTextFieldProps function
+ *
+ * @template T - The data type for the table row
+ */
 interface GetMRT_TextFieldProps<T extends MRT_RowData> {
   cell: MRT_Cell<T>;
   table: MRT_TableInstance<T>;
 }
 
+/**
+ * Gets consistent TextField props for editing components
+ *
+ * This utility combines TextField props from table options and column definition,
+ * as well as ensures consistent behavior across different editing components.
+ *
+ * @template T - The data type for the table row
+ * @param options - Object containing cell and table
+ * @returns TextFieldProps - The combined TextField props
+ */
 export const getTextFieldProps = <T extends MRT_RowData>(
   {
     cell,
@@ -57,6 +83,27 @@ export const getTextFieldProps = <T extends MRT_RowData>(
   };
 }
 
+/**
+ * Sets the current row to view-only mode in the table
+ *
+ * This utility function transforms a regular row into a "view" row by setting its ID
+ * to 'mrt_view_row', which is recognized by MRT_EditDialog to render in view-only mode.
+ *
+ * @example
+ * ```tsx
+ * import { setViewingRow } from '@chris-c-brine/mrt-ui-kit';
+ *
+ * // Inside your component
+ * <Button onClick={() => setViewingRow({ table, row })}>
+ *   View Details
+ * </Button>
+ * ```
+ *
+ * @template TData - The data type for the table row
+ * @param options - Object containing table and row
+ * @param options.table - The Material React Table instance
+ * @param options.row - The row to be viewed
+ */
 export const setViewingRow = <TData extends MRT_RowData>(
   {table, row}: Pick<RTV<TData>, 'row' | 'table'>
 ) => table.setEditingRow({...row, id: 'mrt_view_row' });

@@ -4,6 +4,7 @@ import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import CircularProgress from "@mui/material/CircularProgress";
 import Button from "@mui/material/Button";
+import type {MRT_DialogButtonProps} from "./MRT_CloseDialogButton";
 
 /**
  * Submit button component for edit and create operations in dialog mode.
@@ -23,10 +24,8 @@ import Button from "@mui/material/Button";
  * // Text button variant
  * <MRT_SubmitDialogButton row={row} table={table} variant="text" />
  * ```
- *
- * @todo Extend props based on variant
  */
-export const MRT_SubmitDialogButton = <TData extends MRT_RowData>({row, table, variant}: RTV<TData>) => {
+export const MRT_SubmitDialogButton = <TData extends MRT_RowData>({row, table, variant}: MRT_DialogButtonProps<TData>) => {
   const {
     getState,
     options: {

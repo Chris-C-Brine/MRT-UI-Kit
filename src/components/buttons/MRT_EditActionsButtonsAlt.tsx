@@ -42,6 +42,7 @@ export interface MRT_EditActionButtonsAltProps<TData extends MRT_RowData> extend
   /** Option to hide the submit-button (useful for view-only mode) */
   hideSubmitButton?: boolean;
 }
+
 /**
  * Alternative edit action buttons component for Material React Table.
  *
@@ -69,22 +70,19 @@ export const MRT_EditActionButtonsAlt = <TData extends MRT_RowData>(
     variant = 'icon',
     hideSubmitButton,
     ...rest
-  }: MRT_EditActionButtonsAltProps<TData>) => {
-
-  return (
-    <Box
-      onClick={(e) => e.stopPropagation()}
-      sx={(theme) => ({
-        display: 'flex',
-        gap: '0.75rem',
-        ...(parseFromValuesOrFunc(rest?.sx, theme) as any),
-      })}
-    >
-      <MRT_CloseDialogButton row={row} table={table} variant={variant}/>
-      {!hideSubmitButton && <MRT_SubmitDialogButton row={row} table={table} variant={variant}/>}
-    </Box>
-  );
-};
+  }: MRT_EditActionButtonsAltProps<TData>) => (
+  <Box
+    onClick={(e) => e.stopPropagation()}
+    sx={(theme) => ({
+      display: 'flex',
+      gap: '0.75rem',
+      ...(parseFromValuesOrFunc(rest?.sx, theme) as any),
+    })}
+  >
+    <MRT_CloseDialogButton row={row} table={table} variant={variant}/>
+    {!hideSubmitButton && <MRT_SubmitDialogButton row={row} table={table} variant={variant}/>}
+  </Box>
+);
 
 
 

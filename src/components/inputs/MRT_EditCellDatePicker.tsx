@@ -29,6 +29,10 @@ export type MRT_EditCellDatePickerProps<
   showLabel?: boolean;
 };
 
+/**
+ * Type alias for DatePicker value
+ * A Dayjs object or null when no date is selected
+ */
 type DatePickerDate = Dayjs | null;
 
 /**
