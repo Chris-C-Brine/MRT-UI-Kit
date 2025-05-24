@@ -45,24 +45,26 @@ export const MRT_EditDialog = <TData extends MRT_RowData>({
 
           // Get the cell for this column in the current row
           const cell = row.getAllCells().find((c) => c.column.id === column.id);
-
           if (!cell) return null;
 
           // Render the cell value the same way MRT would in the table
-          const value = cell.getValue();
+          const value = cell.getValue<TData>();
           const renderedCellValue = value !== null && value !== undefined ? String(value) : "";
 
           const displayContent: ReactNode = column.columnDef.Cell
-            ? // If there's a custom Cell renderer, use it with all required parameters
-              column.columnDef.Cell({
+            // If there's a custom Cell renderer, use it with all required parameters
+            ? column.columnDef.Cell({
                 cell,
                 column,
                 row,
                 table,
                 renderedCellValue,
               })
-            : // Otherwise use the raw value
-              renderedCellValue;
+            // If there's a custom accessorFn, use it
+            : column.columnDef.accessorFn
+              ? column.columnDef.accessorFn(value) as ReactNode
+              // Otherwise use the raw value
+              : renderedCellValue;
 
           return (
             <Box key={column.id} sx={{ mb: 2 }}>
