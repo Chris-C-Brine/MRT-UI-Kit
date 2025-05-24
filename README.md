@@ -24,14 +24,6 @@ A UI component library built on top of Material React Table (MRT V3) that provid
 
 ---
 
-### Dependencies
-
-This package has the following dependencies:
-
-```shell script
-  npm install @chris-c-brine/autogrid @mui/x-date-pickers dayjs
-```
-
 ### Peer Dependencies
 
 This package requires the following peer dependencies:
@@ -59,4 +51,4 @@ This library is built with TypeScript and provides full type definitions for all
 
 ## License
 
-[ISC](LICENSE) © Christopher Brine
+[AAL](LICENSE) © Christopher C. Brine
