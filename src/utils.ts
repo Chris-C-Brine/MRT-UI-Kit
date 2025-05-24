@@ -7,6 +7,7 @@ import {
 } from 'material-react-table';
 import type {TextFieldProps} from "@mui/material";
 import {parseFromValuesOrFunc} from "material-react-table/src/utils/utils";
+import {RTV} from "./components";
 
 export const updateEditingRow = <TData extends MRT_RowData>(
   table: MRT_TableInstance<TData>,
@@ -55,3 +56,7 @@ export const getTextFieldProps = <T extends MRT_RowData>(
     ...parseFromValuesOrFunc(columnDef.muiEditTextFieldProps, {cell, column, row, table})
   };
 }
+
+export const setViewingRow = <TData extends MRT_RowData>(
+  {table, row}: Pick<RTV<TData>, 'row' | 'table'>
+) => table.setEditingRow({...row, id: 'mrt_view_row' });
