@@ -94,18 +94,9 @@ export const MRT_EditCellTextField = <TData extends MRT_RowData>({
 
   const [value, setValue] = useState(() => cell.getValue<string>());
 
-  const textFieldProps: TextFieldProps = {
-    ...getTextFieldProps({table, cell}),
-    ...rest,
-  };
+  const textFieldProps: TextFieldProps = {...getTextFieldProps({table, cell}), ...rest};
 
-  const selectOptions = parseFromValuesOrFunc(editSelectOptions, {
-    cell,
-    column,
-    row,
-    table,
-  });
-
+  const selectOptions = parseFromValuesOrFunc(editSelectOptions, { cell, column, row, table });
   const isSelectEdit = editVariant === 'select' || textFieldProps?.select;
 
   /**
@@ -189,7 +180,6 @@ export const MRT_EditCellTextField = <TData extends MRT_RowData>({
           : undefined
       }
       select={isSelectEdit}
-      size="small"
       value={value ?? ''}
       variant="standard"
       {...textFieldProps}

@@ -141,7 +141,6 @@ export const MRT_EditCellTextarea = <TData extends MRT_RowData>(
           : undefined
       }
       select={false}
-      size="small"
       value={value ?? ''}
       variant="standard"
       autoComplete="off"
