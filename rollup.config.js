@@ -33,7 +33,10 @@ export default {
         'react',
         'react-dom',
         '@mui/material',
-        '@emotion/react',
-        '@emotion/styled'
+        'material-react-table',
+        '@chris-c-brine/autogrid',
+        '@mui/x-date-pickers',
+        /^@mui\/.*/,   // Mark all MUI packages as external
+        /^@emotion\/.*/  // Mark all Emotion packages as external
     ]
 };
