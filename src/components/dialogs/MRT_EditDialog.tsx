@@ -82,17 +82,19 @@ export const MRT_EditDialog = <TData extends MRT_RowData>(
       // Check if the component exists and is a valid React element with children
       if (!isValidElement(component)) return false;
 
-      // Now we can safely access props with proper typing
-      const reactElement = component as ReactElement;
-      const props = reactElement.props as MRT_EditCellTextFieldProps<TData>;
+      const ComponentElement = component as ReactElement;
+      const props = ComponentElement.props as MRT_EditCellTextFieldProps<TData>;
 
-      // Check for null or undefined children
       if (props === null || props === undefined) return false;
 
-      // Check for empty
-      return !!props.cell.column.columnDef?.Edit?.({
-        cell: props.cell, column: props.cell.column, row, table,
+      const rendered = props.cell.column.columnDef?.Edit?.({
+        cell: props.cell,
+        column: props.cell.column,
+        row: props.cell.row,
+        table
       });
+
+      return rendered !== null;
     });
   }, [components]);
 

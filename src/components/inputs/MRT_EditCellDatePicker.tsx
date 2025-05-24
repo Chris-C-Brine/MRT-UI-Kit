@@ -11,7 +11,7 @@ import type {
 } from 'material-react-table';
 import { XDateLocalizationProvider } from '../../state';
 import {getTextFieldProps, updateEditingRow } from '../../utils';
-import { useState, type KeyboardEvent } from 'react';
+import { useState } from 'react';
 import type { TextFieldProps } from '@mui/material';
 import type {
   PickerChangeHandlerContext,
@@ -56,11 +56,6 @@ export const MRT_EditCellDatePicker = <TData extends MRT_RowData>({
   table,
   ...DatePickerProps
 }: MRT_EditCellDatePickerProps<TData>) => {
-  const {
-    refs: { editInputRefs },
-    setEditingCell,
-  } = table;
-
   const { column, row } = cell;
   const { columnDef } = column;
 
@@ -94,14 +89,6 @@ export const MRT_EditCellDatePicker = <TData extends MRT_RowData>({
 
   const textFieldProps: TextFieldProps = getTextFieldProps({cell, table});
 
-  const handleEnterKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    textFieldProps.onKeyDown?.(event);
-    if (event.key === 'Enter' && !event.shiftKey && editInputRefs.current) {
-      editInputRefs.current[column.id]?.blur();
-      setEditingCell(null);
-    }
-  };
-
   return (
     <XDateLocalizationProvider>
       <DatePicker
@@ -110,19 +97,7 @@ export const MRT_EditCellDatePicker = <TData extends MRT_RowData>({
         minDate={dayjs('01/01/1700')} // allows for before 1900
         {...DatePickerProps}
         slotProps={{
-          textField: {
-            inputRef: (inputRef) => {
-              if (inputRef && editInputRefs.current) {
-                editInputRefs.current[column.id] = inputRef;
-              }
-            },
-            variant: 'standard',
-            onBlur: (e) => {
-              textFieldProps.onBlur?.(e);
-              handleDateChange(value);
-            },
-            onKeyDown: handleEnterKeyDown,
-          },
+          textField: textFieldProps,
         }}
         value={value}
         onChange={handleDateChange}

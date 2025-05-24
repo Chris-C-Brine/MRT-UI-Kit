@@ -50,6 +50,7 @@ export const getTextFieldProps = <T extends MRT_RowData>(
   const {columnDef} = column;
 
   return {
+    variant: 'standard', //can override with columnDef.muiEditTextFieldProps: { variant: "outlined" },
     ...parseFromValuesOrFunc(table.options.muiEditTextFieldProps, {cell, column, row, table}),
     ...parseFromValuesOrFunc(columnDef.muiEditTextFieldProps, {cell, column, row, table})
   };
