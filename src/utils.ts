@@ -106,4 +106,4 @@ export const getTextFieldProps = <T extends MRT_RowData>(
  */
 export const setViewingRow = <TData extends MRT_RowData>(
   {table, row}: Pick<RTV<TData>, 'row' | 'table'>
-) => table.setEditingRow({...row, id: 'mrt-view-row' });
+) => table.setEditingRow({...row, id: 'mrt-row-view' });

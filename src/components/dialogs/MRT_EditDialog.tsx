@@ -96,7 +96,7 @@ export const MRT_EditDialog = <TData extends MRT_RowData>(
     renderViewComponent,
     ...autoGridProps
   }: MRT_EditDialogProps<TData>) => {
-  const mode = row.id == "mrt-create-row" ? "create" : row.id == "mrt-view-row" ? "view" : "edit";
+  const mode = row.id == "mrt-row-create" ? "create" : row.id == "mrt-row-view" ? "view" : "edit";
   const dialogTitle = mode == "create" ? "Create" : mode == "view" ? "View" : "Edit";
 
   const viewOnlyComponents = useMemo(() => {

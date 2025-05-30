@@ -1,6 +1,6 @@
 {
   "name": "@chris-c-brine/mrt-ui-kit",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "type": "module",
   "description": "A UI component library built on top of Material React Table (MRT V3)",
   "main": "dist/index.js",
