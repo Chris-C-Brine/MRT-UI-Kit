@@ -1,5 +1,5 @@
 import {DialogTitle, DialogContent, DialogActions, Box, InputLabel} from "@mui/material";
-import type {MRT_RowData, MRT_Cell} from "material-react-table";
+import type {MRT_RowData, MRT_Cell, MRT_Column, MRT_Row, MRT_TableInstance} from "material-react-table";
 import {AutoGrid, type AutoGridProps} from "@chris-c-brine/autogrid";
 import {isValidElement, ReactElement, ReactNode, useMemo} from "react";
 import {MRT_EditActionButtonsAlt, RTV} from "../buttons";
@@ -17,6 +17,30 @@ interface RenderViewComponentParams<TData extends MRT_RowData> extends Pick<RTV<
   title: string,
   /** The rendered cell content */
   renderedComponent: ReactNode,
+}
+
+/**
+ * Type helper for column.Edit's params
+ * @example
+ * ```tsx
+ *   Edit: ({ table, cell }: MRT_ColumnFunctionProps<UserType>) =>
+ *     (<MRT_EditCellTextarea
+ *       label="Name"
+ *       key={`name-${cell.row.id}`}
+ *       table={table}
+ *       cell={cell}
+ *     />),
+ * ```
+ */
+export interface MRT_ColumnFunctionProps<TData extends MRT_RowData, TValue = unknown> {
+  /** The cell being edited */
+  cell: MRT_Cell<TData, TValue>;
+  /** column definition for editing cell */
+  column: MRT_Column<TData, TValue>;
+  /** The row of the editing cell */
+  row: MRT_Row<TData>;
+  /** The current table instance */
+  table: MRT_TableInstance<TData>;
 }
 
 /**
@@ -49,7 +73,7 @@ export type MRT_EditDialogProps<TData extends MRT_RowData> = AutoGridProps & RTV
  *   const table = useMaterialReactTable({
  *     renderEditRowDialogContent: ({ table, row, internalEditComponents }) =>
  *     (<MRT_EditDialog table={table} row={row} components={internalEditComponents} columnCount={2} />),
- *     ...
+ *     ... rest of table options
  *   });
  * ```
  *
@@ -72,10 +96,11 @@ export const MRT_EditDialog = <TData extends MRT_RowData>(
     renderViewComponent,
     ...autoGridProps
   }: MRT_EditDialogProps<TData>) => {
-  const mode = row.id == "mrt_create_row" ? "create" : row.id == "mrt_view_row" ? "view" : "edit";
+  const mode = row.id == "mrt-create-row" ? "create" : row.id == "mrt-view-row" ? "view" : "edit";
   const dialogTitle = mode == "create" ? "Create" : mode == "view" ? "View" : "Edit";
 
   const viewOnlyComponents = useMemo(() => {
+    if (mode !== 'view') return [];
     return (
       table
       .getAllColumns()
@@ -123,7 +148,7 @@ export const MRT_EditDialog = <TData extends MRT_RowData>(
       })
       .filter(Boolean)
     );
-  }, [table, row]);
+  }, [table, row, mode]);
 
   const filteredComponents = useMemo(() => {
     if (!components) return [];
