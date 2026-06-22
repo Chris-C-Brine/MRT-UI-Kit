@@ -3,16 +3,15 @@ import {
   DatePicker,
   type DatePickerProps,
 } from '@mui/x-date-pickers/DatePicker';
-import dayjs, { type Dayjs } from 'dayjs';
+import dayjs, {type Dayjs} from 'dayjs';
 import type {
   MRT_Cell,
   MRT_RowData,
   MRT_TableInstance,
 } from 'material-react-table';
-import { XDateLocalizationProvider } from '../../state';
-import {getTextFieldProps, updateEditingRow } from '../../utils';
-import { useState } from 'react';
-import type { TextFieldProps } from '@mui/material';
+import {XDateLocalizationProvider} from '../../state';
+import {getDateJsTextFieldProps, updateEditingRow} from '../../utils';
+import {useState} from 'react';
 import type {
   PickerChangeHandlerContext,
   DateValidationError,
@@ -20,7 +19,7 @@ import type {
 
 export type MRT_EditCellDatePickerProps<
   TData extends Record<string | number, unknown>
-> = Omit<DatePickerProps<Dayjs>, 'onChange' | 'value' | 'defaultValue'> & {
+> = Omit<DatePickerProps, 'onChange' | 'value' | 'defaultValue'> & {
   /** The cell to be edited. */
   cell: MRT_Cell<TData>;
   /** The table instance. */
@@ -54,14 +53,15 @@ type DatePickerDate = Dayjs | null;
  *
  * @since 1.0.0
  */
-export const MRT_EditCellDatePicker = <TData extends MRT_RowData>({
-  cell,
-  showLabel,
-  table,
-  ...DatePickerProps
-}: MRT_EditCellDatePickerProps<TData>) => {
-  const { column, row } = cell;
-  const { columnDef } = column;
+export const MRT_EditCellDatePicker = <TData extends MRT_RowData>(
+  {
+    cell,
+    showLabel,
+    table,
+    ...DatePickerProps
+  }: MRT_EditCellDatePickerProps<TData>) => {
+  const {column, row} = cell;
+  const {columnDef} = column;
 
   const defaultValue = cell.getValue<string>() || null;
 
@@ -91,16 +91,21 @@ export const MRT_EditCellDatePicker = <TData extends MRT_RowData>({
     DatePickerProps?.onAccept?.(value, context);
   };
 
-  const textFieldProps: TextFieldProps = getTextFieldProps({cell, table});
+  const textFieldProps = getDateJsTextFieldProps({
+    cell,
+    table,
+    textFieldProps: DatePickerProps?.slotProps?.textField
+  });
 
   return (
     <XDateLocalizationProvider>
       <DatePicker
         format="MM/DD/YYYY"
-        sx={{ width: '100%' }}
+        sx={{width: '100%'}}
         minDate={dayjs('01/01/1700')} // allows for before 1900
         {...DatePickerProps}
         slotProps={{
+          ...DatePickerProps?.slotProps,
           textField: textFieldProps,
         }}
         value={value}

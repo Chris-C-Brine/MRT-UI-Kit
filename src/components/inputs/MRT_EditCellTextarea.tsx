@@ -21,7 +21,7 @@ import {
   type MRT_RowData,
   type MRT_TableInstance,
 } from 'material-react-table';
-import {getTextFieldProps, updateEditingRow} from '../../utils';
+import {getDateJsTextFieldProps, updateEditingRow} from '../../utils';
 import {parseFromValuesOrFunc} from 'material-react-table/src/utils/utils';
 
 /**
@@ -80,7 +80,7 @@ export const MRT_EditCellTextarea = <TData extends MRT_RowData>(
    * 2. Column-specific props
    * 3. Props passed directly to this component
    */
-  const textFieldProps: TextFieldProps = {...getTextFieldProps({table, cell}), ...rest};
+  const textFieldProps: TextFieldProps = {...getDateJsTextFieldProps({table, cell}), ...rest};
 
   const saveInputValueToRowCache = (newValue: string) => {
     //@ts-expect-error row._valuesCache is keyed by column.id

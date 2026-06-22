@@ -82,7 +82,7 @@ export const MRT_EditCellAutocomplete = <
     setValue(newValue);
   };
 
-  const textFieldProps: TextFieldProps = getTextFieldProps({cell, table});
+  const textFieldProps = getTextFieldProps({cell, table});
 
   return (
     <Autocomplete

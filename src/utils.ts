@@ -5,9 +5,10 @@ import {
   MRT_Cell,
   MRT_RowData,
 } from 'material-react-table';
-import type {TextFieldProps} from "@mui/material";
 import {parseFromValuesOrFunc} from "material-react-table/src/utils/utils";
 import {RTV} from "./components";
+import {DatePickerSlotProps} from "@mui/x-date-pickers/DatePicker";
+import {TextFieldProps} from "@mui/material";
 
 /**
  * Updates the editing row in a Material React Table with a new value
@@ -49,13 +50,55 @@ export const updateEditingRow = <TData extends MRT_RowData>(
 };
 
 /**
- * Parameters for the getTextFieldProps function
+ * Parameters for the getDateJsTextFieldProps function
+ *
+ * @template T - The data type for the table row
+ */
+interface GetDateJsMRT_TextFieldProps<T extends MRT_RowData> {
+  cell: MRT_Cell<T>;
+  table: MRT_TableInstance<T>;
+  textFieldProps?: DatePickerSlotProps['textField']
+}
+
+/**
+ * Gets consistent TextField props for editing components
+ *
+ * This utility combines TextField props from table options and column definition,
+ * as well as ensures consistent behavior across different editing components.
+ *
+ * @template T - The data type for the table row
+ * @param options - Object containing cell and table
+ * @returns TextFieldProps - The combined TextField props
+ */
+export const getDateJsTextFieldProps = <T extends MRT_RowData>(
+  {
+    cell,
+    table,
+    textFieldProps
+  }: GetDateJsMRT_TextFieldProps<T>): Record<string, unknown> => {
+  const {column, row} = cell;
+  const {columnDef} = column;
+
+  // If textFieldProps is a function, we can't call it here without ownerState
+  // So just spread it as-is if it's an object, or ignore if it's a function
+  const propsToSpread = typeof textFieldProps === 'function' ? {} : textFieldProps;
+
+  return {
+    ...propsToSpread,
+    ...parseFromValuesOrFunc(table.options.muiEditTextFieldProps, {cell, column, row, table}),
+    ...parseFromValuesOrFunc(columnDef.muiEditTextFieldProps, {cell, column, row, table})
+  };
+}
+
+/**
+ * Parameters for the getDateJsTextFieldProps function
  *
  * @template T - The data type for the table row
  */
 interface GetMRT_TextFieldProps<T extends MRT_RowData> {
   cell: MRT_Cell<T>;
   table: MRT_TableInstance<T>;
+  textFieldProps?: TextFieldProps
 }
 
 /**
@@ -71,13 +114,18 @@ interface GetMRT_TextFieldProps<T extends MRT_RowData> {
 export const getTextFieldProps = <T extends MRT_RowData>(
   {
     cell,
-    table
+    table,
+    textFieldProps
   }: GetMRT_TextFieldProps<T>): TextFieldProps => {
   const {column, row} = cell;
   const {columnDef} = column;
 
+  // If textFieldProps is a function, we can't call it here without ownerState
+  // So just spread it as-is if it's an object, or ignore if it's a function
+  const propsToSpread = typeof textFieldProps === 'function' ? {} : textFieldProps;
+
   return {
-    variant: 'standard', //can override with columnDef.muiEditTextFieldProps: { variant: "outlined" },
+    ...propsToSpread,
     ...parseFromValuesOrFunc(table.options.muiEditTextFieldProps, {cell, column, row, table}),
     ...parseFromValuesOrFunc(columnDef.muiEditTextFieldProps, {cell, column, row, table})
   };
@@ -106,4 +154,4 @@ export const getTextFieldProps = <T extends MRT_RowData>(
  */
 export const setViewingRow = <TData extends MRT_RowData>(
   {table, row}: Pick<RTV<TData>, 'row' | 'table'>
-) => table.setEditingRow({...row, id: 'mrt-row-view' });
+) => table.setEditingRow({...row, id: 'mrt-row-view'});

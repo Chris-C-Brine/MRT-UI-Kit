@@ -176,11 +176,11 @@ export const MRT_EditDialog = <TData extends MRT_RowData>(
 
   return (
     <>
-      <DialogTitle textAlign="center">{dialogTitle}</DialogTitle>
+      <DialogTitle sx={{textAlign: "center"}}>{dialogTitle}</DialogTitle>
       <DialogContent>
         <AutoGrid
-          justifyItems={"baseline"}
           {...autoGridProps}
+          sx={{ justifyItems: "baseline", ...autoGridProps?.sx }}
           components={mode == "view" ? viewOnlyComponents : filteredComponents}
         />
       </DialogContent>
